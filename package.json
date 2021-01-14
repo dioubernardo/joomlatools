@@ -1,0 +1,19 @@
+{
+  "name": "joomlatools",
+  "version": "0.0.1",
+  "description": "Tools administration for Joomla",
+  "dependencies": {
+    "chrome-launcher": "^0.13.4",
+    "chrome-remote-interface": "^0.29.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dioubernardo/joomlatools.git"
+  },
+  "author": "Bernardo Silva",
+  "bugs": {
+    "url": "https://github.com/dioubernardo/joomlatools/issues"
+  },
+  "homepage": "https://github.com/dioubernardo/joomlatools#readme"
+}
