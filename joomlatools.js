@@ -5,6 +5,7 @@ async function main() {
 
         let options = {
             headless: true,
+            delayload: 250,
             logLevel: "error",
             action: "",
             site: "",

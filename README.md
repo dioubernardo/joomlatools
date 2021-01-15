@@ -19,6 +19,7 @@ node joomlatools.js [options] [actions]
 
 ## Options
     --headless = true | *empty* is true | false (default)
+    --delayload = number of milliseconds to wait, 250 is the default
     --logLevel = silent | info | verbose | error (default) 
     --site = Site Domain base domain
     --user = username

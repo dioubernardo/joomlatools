@@ -26,12 +26,18 @@ class Browser {
         await Network.enable();
         await Page.enable();
         await Page.navigate({ url: url });
-        await Page.loadEventFired();
+        await this.waitLoad();
     }
 
     async waitLoad() {
         const { Page } = this.client;
-        await Page.loadEventFired();
+        await Page.loadEventFired().then(() => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve();
+                }, this.options.delayload);
+            });
+        });
     }
 
     async exec(script) {
