@@ -79,8 +79,8 @@ class Browser {
         return changed;
     }
 
-    click(selector) {
-        this.exec(`
+    async click(selector) {
+        await this.exec(`
             const sel = ` + JSON.stringify(selector) + `;
             const o = jQuery(sel);
             if (o.length == 0)
