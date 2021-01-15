@@ -11,6 +11,18 @@ async function run(options) {
         joomla = new Joomla(browser, options.site);
 
         await joomla.login(options.user, options.password);
+    
+        await joomla.go("/administrator/index.php?option=com_installer&view=updatesites");
+        await browser.click("#toolbar-refresh button");
+        await browser.waitLoad();
+
+        await joomla.go("/administrator/index.php?option=com_installer&view=update");
+        await browser.click("#toolbar-purge button");
+        await browser.waitLoad();
+
+        await joomla.go("/administrator/index.php?option=com_installer&view=update");
+        await browser.click("#toolbar-refresh button");
+        await browser.waitLoad();
 
         let list = await joomla.openListFullRecords(
             "/administrator/index.php?option=com_installer&view=update",
