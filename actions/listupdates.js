@@ -20,12 +20,13 @@ async function run(options) {
         await browser.click("#toolbar-purge button");
         await browser.waitLoad();
 
-        await joomla.go("/administrator/index.php?option=com_installer&view=update");
         await browser.click("#toolbar-refresh button");
         await browser.waitLoad();
 
-        let list = await joomla.openListFullRecords(
-            "/administrator/index.php?option=com_installer&view=update",
+        if (await browser.setValue("#list_limit", 0))
+            await browser.waitLoad();        
+
+        let list = await joomla.getLines(
             "#j-main-container > table",
             [1, 4, 5]
         );

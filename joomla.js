@@ -31,13 +31,7 @@ class Joomla {
         }
     }
 
-    async openListFullRecords(url, selector, columns) {
-
-        await this.go(url);
-
-        if (await this.browser.setValue("#list_limit", 0))
-            await this.browser.waitLoad();
-
+    async getLines(selector, columns){
         const result = await this.browser.exec(`
             let ret = [];
             let columns = `+ JSON.stringify(columns) + `;
