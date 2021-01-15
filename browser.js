@@ -70,7 +70,7 @@ class Browser {
             if (o.length == 0)
                 throw "Object " + sel + " not found";
             const v = ` + JSON.stringify(value) + `;
-            if (o.val() != v){
+            if (o.val() != (""+v)){
                 o.val(v).triggerHandler("change");
                 return true;
             }
