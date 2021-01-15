@@ -42,6 +42,11 @@ async function main() {
                 await listupdates(options);
                 break;
 
+            case "checks":
+                const checks = require("./actions/checks.js");
+                await checks(options);
+                break;
+    
             default:
                 throw "Invalid action: " + options.action;
         }

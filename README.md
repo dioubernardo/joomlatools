@@ -28,11 +28,18 @@ node joomlatools.js [options] [actions]
 ## Actions
 
 ### List Updates
-
+List extensions updates
 ```
 > node joomlatools.js --site=https://example.com --user=username --password=xxx listupdates
 Site: https://example.com
  Phoca Gallery from 4.3.18 to 4.4.0
  Phoca Gallery Button Plugin from 4.3.11 to 4.4.0
  plg_content_furg from 1.1.80 to 1.1.81
+```
+
+### Installer Checks
+Test installer warnings, Database and non Joomla extensions disabled
+```
+> node joomlatools.js --site=https://example.com --user=username --password=xxx checks
+
 ```
