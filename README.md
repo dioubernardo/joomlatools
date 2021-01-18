@@ -32,7 +32,7 @@ node joomlatools.js [options] [actions]
 List extensions updates
 ```
 > node joomlatools.js --site=https://example.com --user=username --password=xxx listupdates
-Site: https://example.com
+Running on https://example.com
  Phoca Gallery from 4.3.18 to 4.4.0
  Phoca Gallery Button Plugin from 4.3.11 to 4.4.0
  plg_content_furg from 1.1.80 to 1.1.81
@@ -42,5 +42,7 @@ Site: https://example.com
 Test installer warnings, Database and non Joomla extensions disabled
 ```
 > node joomlatools.js --site=https://example.com --user=username --password=xxx checks
-
+Running on https://example.com
+ Warnings: Nenhuma advertência detectada
+ Database: Aviso: Banco de Dados não está atualizado!
 ```
