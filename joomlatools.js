@@ -75,7 +75,7 @@ async function main() {
             if (options.site.substr(options.site.length - 1) == "/")
                 options.site = options.site.substr(0, options.site.length - 1);
             if (!/^https?:\/\//.test(options.site))
-                options.site = "http://" + options.site;
+                options.site = "https://" + options.site;
 
             console.log("\nRunning on " + options.site);
 
