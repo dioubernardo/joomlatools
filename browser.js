@@ -57,9 +57,9 @@ class Browser {
                 throw result.exceptionDetails.exception.description;
             else if (result.exceptionDetails.exception.value)
                 throw result.exceptionDetails.exception.value;
-            else 
+            else
                 throw "Unidentified exception";
-         }
+        }
         return result.result.value.returned;
     }
 

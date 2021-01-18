@@ -31,7 +31,7 @@ class Joomla {
         }
     }
 
-    async getLines(selector, columns){
+    async getLines(selector, columns) {
         const result = await this.browser.exec(`
             let ret = [];
             let columns = `+ JSON.stringify(columns) + `;

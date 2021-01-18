@@ -3,7 +3,7 @@ const Joomla = require("../joomla.js");
 
 async function run(options) {
     let browser, joomla;
-    
+
     try {
         browser = new Browser(options);
         await browser.start();
@@ -11,7 +11,7 @@ async function run(options) {
         joomla = new Joomla(browser, options.site);
 
         await joomla.login(options.user, options.password);
-    
+
         await joomla.go("/administrator/index.php?option=com_installer&view=updatesites");
         await browser.click("#toolbar-refresh button");
         await browser.waitLoad();
@@ -24,7 +24,7 @@ async function run(options) {
         await browser.waitLoad();
 
         if (await browser.setValue("#list_limit", 0))
-            await browser.waitLoad();        
+            await browser.waitLoad();
 
         let list = await joomla.getLines(
             "#j-main-container > table",
