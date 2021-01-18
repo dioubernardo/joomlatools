@@ -12,8 +12,6 @@ async function run(options) {
 
         await joomla.login(options.user, options.password);
 
-        console.log("Site: " + options.site);
-
         await joomla.go("/administrator/index.php?option=com_installer&view=warnings");
         const warnings = await browser.getText("#system-message-container .alert-message");
         console.log(" Warnings: " + warnings);

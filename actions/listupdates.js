@@ -32,7 +32,6 @@ async function run(options) {
         );
 
         if (list.length > 0) {
-            console.log("Site: " + options.site);
             list.forEach(update => {
                 console.log(" " + update[0] + " from " + update[1] + " to " + update[2]);
             });
