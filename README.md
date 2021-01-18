@@ -14,7 +14,7 @@ npm install
 ## Syntax
 
 ```
-node joomlatools.js [options] [actions]
+node joomlatools.js [options] [actions] [args]
 ```
 
 ## Options
@@ -45,4 +45,13 @@ Test installer warnings, Database and non Joomla extensions disabled
 Running on https://example.com
  Warnings: Nenhuma advertência detectada
  Database: Aviso: Banco de Dados não está atualizado!
+```
+
+### Update extension
+Update extension
+```
+> node joomlatools.js --site=https://example.com --user=username --password=xxx updateextension [extensionname]
+Running on https://example.com
+ Updating: plg_content_furg
+ Result: Atualização de plugin concluída com sucesso.
 ```

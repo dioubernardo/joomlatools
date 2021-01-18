@@ -20,6 +20,7 @@ async function main() {
             delayload: 250,
             logLevel: "error",
             action: "",
+            args: [],
             site: "",
             sites: "",
             user: "",
@@ -44,7 +45,10 @@ async function main() {
                         throw "Invalid parameter: " + arg;
                 }
             } else {
-                options.action = arg.toLowerCase();
+                if (options.action == "")
+                    options.action = arg.toLowerCase();
+                else
+                    options.args.push(arg);
             }
         });
 
@@ -83,6 +87,11 @@ async function main() {
                 case "listupdates":
                     const listupdates = require("./actions/listupdates.js");
                     await listupdates(options);
+                    break;
+
+                case "updateextension":
+                    const updateextension = require("./actions/updateextension.js");
+                    await updateextension(options);
                     break;
 
                 case "checks":
