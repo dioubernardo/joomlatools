@@ -1,3 +1,15 @@
+const axios = require("axios");
+const fs = require("fs");
+
+function splitParameter(txt, sep) {
+    const pos = txt.indexOf(sep);
+    if (pos == -1)
+        return [txt, ""];
+    return [
+        txt.substr(0, pos),
+        txt.substr(pos + 1, txt.length - pos + 1)
+    ];
+}
 
 async function main() {
 
@@ -9,17 +21,18 @@ async function main() {
             logLevel: "error",
             action: "",
             site: "",
+            sites: "",
             user: "",
             password: ""
         };
 
-        let args = process.argv.slice(2);
+        const args = process.argv.slice(2);
         args.forEach(arg => {
             if (arg.substr(0, 2) == "--") {
-                let attr = arg.substr(2).split("=", 2);
+                const attr = splitParameter(arg.substr(2), "=");
                 switch (typeof options[attr[0]]) {
                     case "boolean":
-                        if (!attr[1])
+                        if (attr[1] == "")
                             options[attr[0]] = true;
                         else
                             options[attr[0]] = (attr[1].toLowerCase() == "true");
@@ -35,20 +48,51 @@ async function main() {
             }
         });
 
-        switch (options.action) {
+        let domains = [];
+        if (options.sites != "") {
+            const sites = splitParameter(options.sites, ":");
+            switch (sites[0]) {
+                case "json":
+                    const response = await axios.get(sites[1]);
+                    domains = response.data;
+                    break;
+                case "txt":
+                    const data = fs.readFileSync(sites[1], "utf8");
+                    domains = data.toString().trim().split(/\s+\r?\n/);
+                    break;
+                default:
+                    throw "--sites must be \"format:destination\", possible formats: txt or json";
+            }
+        } else if (options.site != "") {
+            domains = [options.site];
+        } else {
+            throw "You must inform the parameter --site or --sites";
+        }
 
-            case "listupdates":
-                const listupdates = require("./actions/listupdates.js");
-                await listupdates(options);
-                break;
+        for (let i = 0; i < domains.length; i++) {
 
-            case "checks":
-                const checks = require("./actions/checks.js");
-                await checks(options);
-                break;
-    
-            default:
-                throw "Invalid action: " + options.action;
+            options.site = domains[i];
+            if (options.site.substr(options.site.length - 1) == "/")
+                options.site = options.site.substr(0, options.site.length - 1);
+            if (!/^https?:\/\//.test(options.site))
+                options.site = "http://" + options.site;
+
+            console.log("\nRunning on " + options.site);
+
+            switch (options.action) {
+                case "listupdates":
+                    const listupdates = require("./actions/listupdates.js");
+                    await listupdates(options);
+                    break;
+
+                case "checks":
+                    const checks = require("./actions/checks.js");
+                    await checks(options);
+                    break;
+
+                default:
+                    throw "Invalid action: " + options.action;
+            }
         }
 
     } catch (err) {

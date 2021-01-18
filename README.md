@@ -22,6 +22,7 @@ node joomlatools.js [options] [actions]
     --delayload = number of milliseconds to wait, 250 is the default
     --logLevel = silent | info | verbose | error (default) 
     --site = Site Domain base domain
+    --sites = "format:destination", possible formats: txt or json
     --user = username
     --password = password
 
