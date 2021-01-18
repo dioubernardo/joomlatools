@@ -62,7 +62,7 @@ async function main() {
                     break;
                 case "txt":
                     const data = fs.readFileSync(sites[1], "utf8");
-                    domains = data.toString().trim().split(/\s+\r?\n/);
+                    domains = data.toString().trim().split(/\s*\r?\n/);
                     break;
                 default:
                     throw "--sites must be \"format:destination\", possible formats: txt or json";
