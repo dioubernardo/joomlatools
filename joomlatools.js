@@ -99,6 +99,11 @@ async function main() {
                     await checks(options);
                     break;
 
+                case "update":
+                    const update = require("./actions/update.js");
+                    await update(options);
+                    break;
+
                 default:
                     throw "Invalid action: " + options.action;
             }
