@@ -96,14 +96,15 @@ class Browser {
         return result;
     }
 
-    getText(selector) {
-        return this.exec(`
+    async getText(selector) {
+        const result = await this.exec(`
             const sel = ` + JSON.stringify(selector) + `;
             const o = jQuery(sel);
             if (o.length == 0)
                 throw "Object " + sel + " not found";
             return o.text();
         `);
+        return result.trim();
     }
 
     end() {
