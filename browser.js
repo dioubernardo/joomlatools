@@ -107,6 +107,12 @@ class Browser {
         return result.trim();
     }
 
+    async confirm(result) {
+        await this.exec(`
+            window.confirm = function(){ return ` + JSON.stringify(result) + `; }
+        `);
+    }
+
     end() {
         try {
             this.client.close();
