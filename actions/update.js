@@ -73,7 +73,7 @@ async function run(options) {
                 if (i > 0)
                     console.log("");
 
-                console.log("  " + ((i + 1) + "").padStart(("" + count).length, " ") + "/" + count + " " + list[i][0]);
+                console.log("  " + (i + 1) + "/" + count + " " + list[i][0]);
 
                 try {
                     const id = list[i][1];

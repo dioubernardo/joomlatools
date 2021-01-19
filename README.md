@@ -55,3 +55,32 @@ Running on https://example.com
  Updating: plg_content_furg
  Result: Atualização de plugin concluída com sucesso.
 ```
+
+### Update Joomla
+Update Joomla
+```
+> node joomlatools.js --site=https://example.com --user=username --password=xxx update
+Running on https://example.com
+ Update from 3.9.23 to 3.9.24
+ Process   0.0%
+ Process   9.8%
+ Process  18.9%
+ Process  27.3%
+ Process  50.0%
+ Process  69.3%
+ Process  83.4%
+ Process 100.0%
+ Result: Seu site foi atualizado com sucesso. A versão do seu Joomla agora é 3.9.24.
+ Starting extra extensions removal process
+  1/3 Autenticação - GMail
+   Install result: Instalação de pendências com sucesso.
+   Uninstall result: Desinstalação do plugin concluída com sucesso.
+
+  2/3 Autenticação - LDAP
+   Install result: Instalação de pendências com sucesso.
+   Uninstall result: Desinstalação do plugin concluída com sucesso.
+
+  3/3 Autenticação de Fator Duplo - Autenticador do Google
+   Install result: Instalação de pendências com sucesso.
+   Uninstall result: Desinstalação do plugin concluída com sucesso.
+```
