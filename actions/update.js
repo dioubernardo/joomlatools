@@ -21,7 +21,7 @@ async function run(options) {
                 "#online-update table",
                 [1]
             );
-            console.log(" Update from " + list[0][0].replace(/^\?/, "") + " to " + list[1][0].replace(/^\?/, ""));
+            console.log(" Update from " + list[0][0].replace(/[^0-9.]/, "") + " to " + list[1][0].replace(/[^0-9.]/, ""));
 
             await browser.click("#online-update button");
             await browser.waitLoad();
