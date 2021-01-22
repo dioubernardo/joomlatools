@@ -106,6 +106,11 @@ async function main() {
                     await update(options);
                     break;
 
+                case "installpendingextension":
+                    const installpendingextension = require("./actions/installpendingextension.js");
+                    await installpendingextension(options);
+                    break;
+
                 default:
                     throw "Invalid action: " + options.action;
             }

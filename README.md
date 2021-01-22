@@ -84,3 +84,12 @@ Running on https://example.com
    Install result: Instalação de pendências com sucesso.
    Uninstall result: Desinstalação do plugin concluída com sucesso.
 ```
+
+### Install pending extension
+Install pending extension
+```
+> node joomlatools.js --site=https://example.com --user=username --password=xxx installpendingextension [extensionname]
+Running on https://example.com
+ Installing: protostar
+ Result: Instalação de pendências com sucesso.
+```
