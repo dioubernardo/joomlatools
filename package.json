@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Tools administration for Joomla",
   "dependencies": {
-    "axios": "^0.21.1",
-    "chrome-launcher": "^0.13.4",
-    "chrome-remote-interface": "^0.29.0"
+    "axios": "^1.13.5",
+    "chrome-launcher": "^1.2.1",
+    "chrome-remote-interface": "^0.34.0"
   },
   "devDependencies": {},
   "repository": {
