@@ -111,6 +111,11 @@ async function main() {
                     await installpendingextension(options);
                     break;
 
+                case "disableplugin":
+                    const disableplugin = require("./actions/disableplugin.js");
+                    await disableplugin(options);
+                    break;
+
                 default:
                     throw "Invalid action: " + options.action;
             }
