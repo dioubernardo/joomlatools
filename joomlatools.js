@@ -116,6 +116,11 @@ async function main() {
                     await disableplugin(options);
                     break;
 
+                case "deleteviewlevel":
+                    const deleteviewlevel = require("./actions/deleteviewlevel.js");
+                    await deleteviewlevel(options);
+                    break;
+
                 default:
                     throw "Invalid action: " + options.action;
             }
