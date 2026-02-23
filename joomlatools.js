@@ -87,38 +87,15 @@ async function main() {
 
             switch (options.action) {
                 case "listupdates":
-                    const listupdates = require("./actions/listupdates.js");
-                    await listupdates(options);
-                    break;
-
                 case "updateextension":
-                    const updateextension = require("./actions/updateextension.js");
-                    await updateextension(options);
-                    break;
-
                 case "checks":
-                    const checks = require("./actions/checks.js");
-                    await checks(options);
-                    break;
-
                 case "update":
-                    const update = require("./actions/update.js");
-                    await update(options);
-                    break;
-
                 case "installpendingextension":
-                    const installpendingextension = require("./actions/installpendingextension.js");
-                    await installpendingextension(options);
-                    break;
-
                 case "disableplugin":
-                    const disableplugin = require("./actions/disableplugin.js");
-                    await disableplugin(options);
-                    break;
-
                 case "deleteviewlevel":
-                    const deleteviewlevel = require("./actions/deleteviewlevel.js");
-                    await deleteviewlevel(options);
+                case "deleteextension":
+                    const action = require("./actions/"+options.action+".js");
+                    await action(options);
                     break;
 
                 default:
