@@ -94,6 +94,7 @@ async function main() {
                 case "disableplugin":
                 case "deleteviewlevel":
                 case "deleteextension":
+                case "clearfinderindex":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;
