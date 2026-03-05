@@ -31,6 +31,12 @@ class Joomla {
         }
     }
 
+    async checkAll() {
+        await this.browser.exec(`
+            jQuery("[name=checkall-toggle]").trigger("click");
+        `);
+    }
+
     async getLines(selector, columns) {
         const result = await this.browser.exec(`
             let ret = [];
@@ -43,7 +49,7 @@ class Joomla {
                 });
                 ret.push(line);
             });
-            return ret;   
+            return ret;
         `);
         return result;
     }
