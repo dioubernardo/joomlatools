@@ -96,6 +96,7 @@ async function main() {
                 case "deleteextension":
                 case "clearfinderindex":
                 case "gcmodules":
+                case "deletemodule":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;

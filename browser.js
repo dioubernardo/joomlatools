@@ -79,6 +79,27 @@ class Browser {
         return changed;
     }
 
+    async getValue(selector) {
+        const changed = await this.exec(`
+            const sel = ` + JSON.stringify(selector) + `;
+            const o = jQuery(sel);
+            if (o.length == 0)
+                throw "Object " + sel + " not found";
+            return o.val();
+        `);
+        return changed;
+    }
+
+    async click(selector) {
+        await this.exec(`
+            const sel = ` + JSON.stringify(selector) + `;
+            const o = jQuery(sel);
+            }
+            return false;
+        `);
+        return changed;
+    }
+
     async click(selector) {
         await this.exec(`
             const sel = ` + JSON.stringify(selector) + `;
