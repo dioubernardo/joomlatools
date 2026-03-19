@@ -36,39 +36,29 @@ async function run(options) {
         await browser.setValue("#list_limit", "0");
         await browser.waitLoad();
 
-        // removendo modulos não publicados
-        await browser.setValue("#filter_state", "0");
-        await browser.waitLoad();
-        list = await joomla.getLines(
-            "#j-main-container > table",
-            [7]
-        );
-        if (list.length > 0) {
-            await joomla.checkAll();
-            await browser.confirm(true);
-            await browser.click("#toolbar-trash button");
+        async function filterStateAndClick(state, button){
+            await browser.setValue("#filter_state", state);
             await browser.waitLoad();
+            list = await joomla.getLines(
+                "#j-main-container > table",
+                [0]
+            );
+            if (list.length > 0) {
+                await joomla.checkAll();
+                await browser.confirm(true);
+                await browser.click(button);
+                await browser.waitLoad();
 
-            const msg = await browser.getText("#system-message-container .alert-message");
-            console.log(" " + msg);
+                const msg = await browser.getText("#system-message-container .alert-message");
+                console.log(" " + msg);
+            }
         }
+
+        // removendo modulos não publicados
+        await filterStateAndClick("0", "#toolbar-trash button");
 
         // removendo modulos do lixo
-        await browser.setValue("#filter_state", "-2");
-        await browser.waitLoad();
-        list = await joomla.getLines(
-            "#j-main-container > table",
-            [7]
-        );
-        if (list.length > 0) {
-            await joomla.checkAll();
-            await browser.confirm(true);
-            await browser.click("#toolbar-delete button");
-            await browser.waitLoad();
-
-            const msg = await browser.getText("#system-message-container .alert-message");
-            console.log(" " + msg);
-        }
+        await filterStateAndClick("-2", "#toolbar-delete button");
 
     } catch (err) {
         throw err;
