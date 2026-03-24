@@ -16,10 +16,7 @@ async function run(options) {
 
         await joomla.searchWait(options.args[0]);
 
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [3, 7]
-        );
+        let list = await joomla.getContent([3, 7]);
 
         if (list.length > 0) {
 

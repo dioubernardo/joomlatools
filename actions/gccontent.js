@@ -8,11 +8,7 @@ async function run(options) {
         await joomla.changeWait(field, state);
 
         while(true){
-            list = await joomla.getLines(
-                "#j-main-container > table",
-                [0]
-            );
-            if (list.length > 0) {
+            if (await joomla.hasContent()) {
                 await joomla.checkAll();
                 await joomla.clickWaitShowMsg(button);
             }else{
@@ -30,15 +26,7 @@ async function run(options) {
         await joomla.login(options.user, options.password);
 
         // ** Desbloqueando conteudo **
-        await joomla.go("/administrator/index.php?option=com_checkin");
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [0]
-        );
-        if (list.length > 0) {
-            await joomla.checkAll();
-            await joomla.clickWaitShowMsg("button.button-checkin");
-        }
+        await joomla.unlockContent();
 
         // ** GC nos artigos **
         await joomla.goAndClickClear("/administrator/index.php?option=com_content");
@@ -108,10 +96,7 @@ async function run(options) {
         await joomla.goAndClickClear("/administrator/index.php?option=com_menus&view=menus");
         await joomla.changeWait("#list_limit", "0");
 
-        list = await joomla.getLines(
-            "#j-main-container > table",
-            [2, 3, 4, 6]
-        );
+        list = await joomla.getContent([2, 3, 4, 6]);
         if (list.length > 0) {
             let achou = false;
             for (let i = 0; i < list.length; i++) {
@@ -138,17 +123,14 @@ async function run(options) {
             await joomla.changeWait("#list_limit", "0");
             await joomla.changeWait("#filter_published", state);
 
-            let temdados = await browser.hasObject("#j-main-container > table");
+            let temdados = await joomla.hasContent();
             if (!temdados) {
                 return false;
             }
 
             let ehMultiidioma = await browser.getText("#j-main-container > table th:eq(9)") == 'Associação';
 
-            list = await joomla.getLines(
-                "#j-main-container > table",
-                [3, 4, 5, 6, 7, ehMultiidioma ? 11 : 10]
-            );
+            list = await joomla.getContent([3, 4, 5, 6, 7, ehMultiidioma ? 11 : 10]);
             let achou = false;
             for (let i = 0; i < list.length; i++) {
                 const qntPub = list[i][1];

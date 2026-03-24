@@ -60,10 +60,7 @@ async function run(options) {
 
         await joomla.changeWait("#list_limit", 0);
 
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [1, 8]
-        );
+        let list = await joomla.getContent([1, 8]);
         const count = list.length;
         if (count > 0) {
             console.log(" Starting extra extensions removal process");

@@ -20,11 +20,7 @@ async function run(options) {
         await browser.click("#filter_search + button");
         await browser.waitLoad();
 
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [1, 8]
-        );
-
+        let list = await joomla.getContent([1, 8]);
         if (list.length > 0) {
             let items = []
             list.forEach(update => {

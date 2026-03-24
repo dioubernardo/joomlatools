@@ -21,10 +21,7 @@ async function run(options) {
 
         await joomla.changeWait("#list_limit", 0);
 
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [1, 4, 5]
-        );
+        let list = await joomla.getContent([1, 4, 5]);
 
         if (list.length > 0) {
             list.forEach(update => {

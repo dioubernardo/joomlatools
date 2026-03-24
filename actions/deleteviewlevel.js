@@ -14,10 +14,7 @@ async function run(options) {
 
         await joomla.goAndClickClear("/administrator/index.php?option=com_users&view=levels");
 
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [2, 4]
-        );
+        let list = await joomla.getContent([2, 4]);
 
         let aremover = options.args[0].split(",");
         let achou = false;

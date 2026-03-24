@@ -13,16 +13,7 @@ async function run(options) {
         await joomla.login(options.user, options.password);
 
         // desbloqueando conteudo
-        await joomla.go("/administrator/index.php?option=com_checkin");
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [1]
-        );
-        if (list.length > 0) {
-            await joomla.checkAll();
-
-            await joomla.clickWaitShowMsg("button.button-checkin");
-        }
+        await joomla.unlockContent();
 
         // limpando modulos inuteis
         await joomla.goAndClickClear("/administrator/index.php?option=com_modules");
@@ -31,10 +22,7 @@ async function run(options) {
 
         await joomla.searchWait(options.args[2]);
 
-        list = await joomla.getLines(
-            "#j-main-container > table",
-            [9]
-        );
+        list = await joomla.getContent([9]);
 
         for (let i = 0; i < list.length; i++) {
             const id = list[i][0];

@@ -69,6 +69,26 @@ class Joomla {
         }
     }
 
+    async hasContent(){
+        return await this.browser.hasObject("#j-main-container > table tbody tr");
+    }
+
+    async getContent(columns) {
+        return await this.getLines(
+            "#j-main-container > table",
+            columns
+        );
+    }
+
+    async unlockContent(){
+        await this.go("/administrator/index.php?option=com_checkin");
+        let list = await this.getContent([0]);
+        if (list.length > 0) {
+            await this.checkAll();
+            await this.clickWaitShowMsg("button.button-checkin");
+        }
+    }
+
     async getLines(selector, columns) {
         const result = await this.browser.exec(`
             let ret = [];

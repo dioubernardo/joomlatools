@@ -25,10 +25,7 @@ async function run(options) {
         await joomla.changeWait("#filter_status", 0);
         await joomla.changeWait("#list_limit", 0);
 
-        let list = await joomla.getLines(
-            "#j-main-container > table",
-            [2, 7]
-        );
+        let list = await joomla.getContent([2, 7]);
         let extensionsNonJoomla = [];
         list.forEach(item => {
             if (item[1] != "Joomla! Project")
