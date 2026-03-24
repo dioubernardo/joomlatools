@@ -98,6 +98,7 @@ async function main() {
                 case "deletemodule":
                 case "gccontent":
                 case "setcontentlang":
+                case "gclanguages":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;
