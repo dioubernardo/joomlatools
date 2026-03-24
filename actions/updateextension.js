@@ -45,11 +45,7 @@ async function run(options) {
 
             await browser.click("[name=checkall-toggle]");
 
-            await browser.click("#toolbar-upload button");
-            await browser.waitLoad();
-             
-            const msg = await browser.getText("#system-message-container .alert-message");
-            console.log(" Result: " + msg);
+            await joomla.clickWaitShowMsg("#toolbar-upload button", " Result: ");
         }else{
             console.log(" Not found updates for " + options.args[0]);
         }

@@ -82,11 +82,7 @@ async function run(options) {
 
                     await browser.click("[name='cid[]'][value=" + id + "]");
 
-                    await browser.click("#toolbar-upload button");
-                    await browser.waitLoad();
-
-                    let msg = await browser.getText("#system-message-container .alert-message");
-                    console.log("   Install result: " + msg);
+                    await joomla.clickWaitShowMsg("#toolbar-upload button", "   Install result: ");
 
                     await joomla.go("/administrator/index.php?option=com_installer&view=manage");
                     await browser.setValue("#filter_search", "ID:" + id);
@@ -95,13 +91,7 @@ async function run(options) {
 
                     await browser.click("[name='cid[]'][value=" + id + "]");
 
-                    await browser.confirm(true);
-                    await browser.click("#toolbar-delete button");
-                    await browser.waitLoad();
-
-                    msg = await browser.getText("#system-message-container .alert-message");
-                    console.log("   Uninstall result: " + msg);
-
+                    await joomla.clickWaitShowMsg("#toolbar-delete button", "   Uninstall result: ");
                 } catch (err) {
                     console.log("   Error: " + err);
                 }

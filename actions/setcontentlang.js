@@ -12,44 +12,42 @@ async function run(options) {
 
         await joomla.login(options.user, options.password);
 
-        // desbloqueando conteudo
+        // ** Desbloqueando conteudo **
         await joomla.go("/administrator/index.php?option=com_checkin");
         let list = await joomla.getLines(
             "#j-main-container > table",
-            [1]
+            [0]
         );
         if (list.length > 0) {
             await joomla.checkAll();
-
             await joomla.clickWaitShowMsg("button.button-checkin");
         }
 
-        // limpando modulos inuteis
-        await joomla.goAndClickClear("/administrator/index.php?option=com_modules");
+        await joomla.goAndClickClear("/administrator/index.php?option=com_content");
 
-        let client_id = await browser.getValue("#client_id");
-        if (client_id != options.args[0]) {
-            await browser.setValue("#client_id", options.args[0]);
-            await browser.waitLoad();
+        let changed = await browser.setValue("#filter_language", options.args[0]);
+        if (!changed) {
+            console.log("Falha na filtragem pelo idioma: " + options.args[0]);
+            return;
         }
+        await browser.waitLoad();
 
-        await joomla.searchWait(options.args[2]);
+        await browser.setValue("#list_limit", "0");
+        await browser.waitLoad();
 
         list = await joomla.getLines(
             "#j-main-container > table",
-            [9]
+            [0]
         );
+        if (list.length > 0) {
+            await joomla.checkAll();
+            await browser.click("#toolbar-batch button");
 
-        for (let i = 0; i < list.length; i++) {
-            const id = list[i][0];
+            await joomla.sleep(2000);
 
-            if (options.args[1] == id) {
-                await browser.click("[name='cid[]'][value=" + id + "]");
+            await browser.setValue("#batch-language-id", options.args[1]);
 
-                await joomla.clickWaitShowMsg("#toolbar-trash button");
-
-                break;
-            }
+            await joomla.clickWaitShowMsg(".modal-footer button[type='submit']");
         }
 
     } catch (err) {

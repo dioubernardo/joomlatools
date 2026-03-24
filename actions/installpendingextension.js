@@ -18,7 +18,6 @@ async function run(options) {
             await browser.waitLoad();
 
         await browser.setValue("#filter_search", options.args[0]);
-
         await browser.click("#filter_search + button");
         await browser.waitLoad();
 
@@ -36,15 +35,12 @@ async function run(options) {
 
             await browser.click("[name=checkall-toggle]");
 
-            await browser.click("#toolbar-upload button");
-            await browser.waitLoad();
-             
-            const msg = await browser.getText("#system-message-container .alert-message");
-            console.log(" Result: " + msg);
+            await joomla.clickWaitShowMsg("#toolbar-upload button", " Result: ");
+
         }else{
             console.log(" Not found " + options.args[0]);
         }
-        
+
     } catch (err) {
         throw err;
     } finally {

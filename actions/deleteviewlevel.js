@@ -12,10 +12,7 @@ async function run(options) {
 
         await joomla.login(options.user, options.password);
 
-        await joomla.go("/administrator/index.php?option=com_users&view=levels");
-
-        await browser.click("button.js-stools-btn-clear");
-        await browser.waitLoad();
+        await joomla.goAndClickClear("/administrator/index.php?option=com_users&view=levels");
 
         let list = await joomla.getLines(
             "#j-main-container > table",
@@ -36,12 +33,7 @@ async function run(options) {
         }
 
         if (achou){
-            await browser.confirm(true);
-            await browser.click("#toolbar-delete button");
-            await browser.waitLoad();
-
-            const msg = await browser.getText("#system-message-container .alert-message");
-            console.log(" " + msg);
+            await joomla.clickWaitShowMsg("#toolbar-delete button");
         }else{
             console.log(" Not found " + options.args[0]);
         }

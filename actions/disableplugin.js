@@ -12,15 +12,9 @@ async function run(options) {
 
         await joomla.login(options.user, options.password);
 
-        await joomla.go("/administrator/index.php?option=com_plugins");
+        await joomla.goAndClickClear("/administrator/index.php?option=com_plugins");
 
-        await browser.click("button.js-stools-btn-clear");
-        await browser.waitLoad();
-
-        await browser.setValue("#filter_search", options.args[0]);
-
-        await browser.click("button:has(.icon-search)");
-        await browser.waitLoad();
+        await joomla.searchWait(options.args[0]);
 
         let list = await joomla.getLines(
             "#j-main-container > table",
@@ -35,11 +29,7 @@ async function run(options) {
 
                 if (item == options.args[0]) {
                     await browser.click("[name='cid[]'][value=" + id + "]");
-                    await browser.click("#toolbar-unpublish button");
-                    await browser.waitLoad();
-
-                    const msg = await browser.getText("#system-message-container .alert-message");
-                    console.log(" " + msg);
+                    await joomla.clickWaitShowMsg("#toolbar-unpublish button");
                     break;
                 }
             }

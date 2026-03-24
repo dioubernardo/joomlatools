@@ -10,6 +10,26 @@ class Joomla {
         await this.browser.go(this.site + url);
     }
 
+    async goAndClickClear(url){
+        await this.go(url);
+        await this.browser.click("button.js-stools-btn-clear");
+        await this.browser.waitLoad();
+    }
+
+    async clickWaitShowMsg(button, prefixMSG = " "){
+        await this.browser.confirm(true);
+        await this.browser.click(button);
+        await this.browser.waitLoad();
+
+        const selectormsg = "#system-message-container .alert-message";
+        if (await this.browser.hasObject(selectormsg)) {
+            const msg = await this.browser.getText(selectormsg);
+            console.log(prefixMSG + msg);
+            return msg;
+        }
+        return null;
+    }
+
     async login(user, password) {
 
         await this.go("/administrator/");
@@ -35,6 +55,12 @@ class Joomla {
         await this.browser.exec(`
             jQuery("[name=checkall-toggle]").trigger("click");
         `);
+    }
+
+    async searchWait(text){
+        await this.browser.setValue("#filter_search", text);
+        await this.browser.click("button:has(.icon-search)");
+        await this.browser.waitLoad();
     }
 
     async getLines(selector, columns) {
