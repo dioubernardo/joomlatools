@@ -25,15 +25,8 @@ async function run(options) {
 
         await joomla.goAndClickClear("/administrator/index.php?option=com_content");
 
-        let changed = await browser.setValue("#filter_language", options.args[0]);
-        if (!changed) {
-            console.log("Falha na filtragem pelo idioma: " + options.args[0]);
-            return;
-        }
-        await browser.waitLoad();
-
-        await browser.setValue("#list_limit", "0");
-        await browser.waitLoad();
+        await joomla.changeWait("#filter_language", options.args[0]);
+        await joomla.changeWait("#list_limit", "0");
 
         list = await joomla.getLines(
             "#j-main-container > table",

@@ -14,8 +14,7 @@ async function run(options) {
 
         await joomla.go("/administrator/index.php?option=com_installer&view=discover");
 
-        if (await browser.setValue("#list_limit", 0))
-            await browser.waitLoad();
+        await joomla.changeWait("#list_limit", 0);
 
         await browser.setValue("#filter_search", options.args[0]);
         await browser.click("#filter_search + button");

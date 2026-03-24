@@ -4,16 +4,8 @@ const Joomla = require("../joomla.js");
 async function run(options) {
     let browser, joomla;
 
-    async function changeWait(field, value){
-        let val = await browser.getValue(field);
-        if (val != value) {
-            await browser.setValue(field, value);
-            await browser.waitLoad();
-        }
-    }
-
     async function filterStateAndClick(field, state, button){
-        await changeWait(field, state);
+        await joomla.changeWait(field, state);
 
         while(true){
             list = await joomla.getLines(
@@ -114,7 +106,7 @@ async function run(options) {
 
         // ** GC Menus Vazios **
         await joomla.goAndClickClear("/administrator/index.php?option=com_menus&view=menus");
-        await changeWait("#list_limit", "0");
+        await joomla.changeWait("#list_limit", "0");
 
         list = await joomla.getLines(
             "#j-main-container > table",
@@ -143,8 +135,8 @@ async function run(options) {
         let repeticao = 0;
         async function gcCategoriasVazias(state, button, extension){
             await joomla.goAndClickClear("/administrator/index.php?option=com_categories&extension=" + extension);
-            await changeWait("#list_limit", "0");
-            await changeWait("#filter_published", state);
+            await joomla.changeWait("#list_limit", "0");
+            await joomla.changeWait("#filter_published", state);
 
             let temdados = await browser.hasObject("#j-main-container > table");
             if (!temdados) {

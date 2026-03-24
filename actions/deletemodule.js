@@ -27,11 +27,7 @@ async function run(options) {
         // limpando modulos inuteis
         await joomla.goAndClickClear("/administrator/index.php?option=com_modules");
 
-        let client_id = await browser.getValue("#client_id");
-        if (client_id != options.args[0]) {
-            await browser.setValue("#client_id", options.args[0]);
-            await browser.waitLoad();
-        }
+        await joomla.changeWait("#client_id", options.args[0]);
 
         await joomla.searchWait(options.args[2]);
 

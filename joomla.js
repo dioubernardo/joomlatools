@@ -63,6 +63,12 @@ class Joomla {
         await this.browser.waitLoad();
     }
 
+    async changeWait(field, value){
+        if (await this.browser.setValue(field, value)) {
+            await this.browser.waitLoad();
+        }
+    }
+
     async getLines(selector, columns) {
         const result = await this.browser.exec(`
             let ret = [];

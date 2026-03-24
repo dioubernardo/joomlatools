@@ -22,11 +22,8 @@ async function run(options) {
 
         await joomla.go("/administrator/index.php?option=com_installer&view=manage");
 
-        if (await browser.setValue("#filter_status", 0))
-            await browser.waitLoad();
-
-        if (await browser.setValue("#list_limit", 0))
-            await browser.waitLoad();
+        await joomla.changeWait("#filter_status", 0);
+        await joomla.changeWait("#list_limit", 0);
 
         let list = await joomla.getLines(
             "#j-main-container > table",

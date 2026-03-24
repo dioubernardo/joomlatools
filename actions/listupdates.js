@@ -13,18 +13,13 @@ async function run(options) {
         await joomla.login(options.user, options.password);
 
         await joomla.go("/administrator/index.php?option=com_installer&view=updatesites");
-        await browser.click("#toolbar-refresh button");
-        await browser.waitLoad();
+        await joomla.clickWaitShowMsg("#toolbar-refresh button");
 
         await joomla.go("/administrator/index.php?option=com_installer&view=update");
-        await browser.click("#toolbar-purge button");
-        await browser.waitLoad();
+        await joomla.clickWaitShowMsg("#toolbar-purge button");
+        await joomla.clickWaitShowMsg("#toolbar-refresh button");
 
-        await browser.click("#toolbar-refresh button");
-        await browser.waitLoad();
-
-        if (await browser.setValue("#list_limit", 0))
-            await browser.waitLoad();
+        await joomla.changeWait("#list_limit", 0);
 
         let list = await joomla.getLines(
             "#j-main-container > table",

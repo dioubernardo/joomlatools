@@ -13,21 +13,16 @@ async function run(options) {
         await joomla.login(options.user, options.password);
 
         await joomla.go("/administrator/index.php?option=com_installer&view=updatesites");
-        await browser.click("#toolbar-refresh button");
-        await browser.waitLoad();
+        await joomla.clickWaitShowMsg("#toolbar-refresh button");
 
         await joomla.go("/administrator/index.php?option=com_installer&view=update");
-        await browser.click("#toolbar-purge button");
-        await browser.waitLoad();
+        await joomla.clickWaitShowMsg("#toolbar-purge button");
 
-        await browser.click("#toolbar-refresh button");
-        await browser.waitLoad();
+        await joomla.clickWaitShowMsg("#toolbar-refresh button");
 
-        if (await browser.setValue("#list_limit", 0))
-            await browser.waitLoad();
+        await joomla.changeWait("#list_limit", 0);
 
         await browser.setValue("#filter_search", options.args[0]);
-
         await browser.click("#filter_search + button");
         await browser.waitLoad();
 

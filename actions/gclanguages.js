@@ -14,11 +14,8 @@ async function run(options) {
 
         await joomla.goAndClickClear("/administrator/index.php?option=com_languages&view=languages");
 
-        await browser.setValue("#list_limit", "0");
-        await browser.waitLoad();
-
-        await browser.setValue("#filter_published", "0");
-        await browser.waitLoad();
+        await joomla.changeWait("#list_limit", "0");
+        await joomla.changeWait("#filter_published", "0");
 
         let list = await joomla.getLines(
             "#j-main-container > table",
@@ -29,8 +26,7 @@ async function run(options) {
             await joomla.clickWaitShowMsg("#toolbar-trash button")
         }
 
-        await browser.setValue("#filter_published", "-2");
-        await browser.waitLoad();
+        await joomla.changeWait("#filter_published", "-2");
 
         list = await joomla.getLines(
             "#j-main-container > table",
