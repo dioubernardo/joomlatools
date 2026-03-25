@@ -29,9 +29,7 @@ async function run(options) {
 
             if (options.args[1] == id) {
                 await browser.click("[name='cid[]'][value=" + id + "]");
-
                 await joomla.clickWaitShowMsg("#toolbar-trash button");
-
                 break;
             }
         }

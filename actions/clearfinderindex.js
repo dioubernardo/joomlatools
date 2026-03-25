@@ -14,9 +14,7 @@ async function run(options) {
 
         await joomla.go("/administrator/index.php?option=com_finder");
 
-        await browser.confirm(true);
-        await browser.click("button.button-trash");
-        await browser.waitLoad();
+        await joomla.clickWaitShowMsg("button.button-trash");
 
     } catch (err) {
         throw err;

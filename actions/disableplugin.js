@@ -17,21 +17,15 @@ async function run(options) {
         await joomla.searchWait(options.args[0]);
 
         let list = await joomla.getContent([3, 7]);
+        for (let i = 0; i < list.length; i++) {
+            const item = list[i][0];
+            const id = list[i][1];
 
-        if (list.length > 0) {
-
-            for (let i = 0; i < list.length; i++) {
-                const item = list[i][0];
-                const id = list[i][1];
-
-                if (item == options.args[0]) {
-                    await browser.click("[name='cid[]'][value=" + id + "]");
-                    await joomla.clickWaitShowMsg("#toolbar-unpublish button");
-                    break;
-                }
+            if (item == options.args[0]) {
+                await browser.click("[name='cid[]'][value=" + id + "]");
+                await joomla.clickWaitShowMsg("#toolbar-unpublish button");
+                break;
             }
-        }else{
-            console.log(" Not found " + options.args[0]);
         }
 
     } catch (err) {
