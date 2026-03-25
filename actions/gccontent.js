@@ -114,7 +114,6 @@ async function run(options) {
             }
         }
 
-
         // ** GC categorias vazias **
         let ultimoerro = "";
         let repeticao = 0;
@@ -138,8 +137,9 @@ async function run(options) {
                 const qntArq = list[i][3];
                 const qntLixo = list[i][4];
                 const id = list[i][5];
-                const proximoehFilho = list[i+1] != undefined && (list[i+1][0].substring(0,1) == "-" || list[i+1][0].substring(0,1) == "┊");
+                const proximoehFilho = list[i+1] != undefined && (list[i+1][0].substring(0,1) == "–" || list[i+1][0].substring(0,1) == "┊");
                 const semcategoria = list[i][0].match(/(Sem categoria|Uncategorised|Nenhuma Categoria|uncategorised)/i) != null;
+
                 if (qntPub == "0" && qntNPub == "0" && qntLixo == "0" && qntArq == "0" && !proximoehFilho && !semcategoria) {
                     await browser.click("[name='cid[]'][value=" + id + "]");
                     achou = true;
@@ -149,8 +149,8 @@ async function run(options) {
                 let msg = await joomla.clickWaitShowMsg(button);
                 if (ultimoerro == msg) {
                     repeticao++;
-                    if (repeticao == 3) {
-                        console.log("Erro repetido 3 vezes");
+                    if (repeticao == 5) {
+                        console.log("Erro repetido 5 vezes");
                         return false;
                     }
                 }else{
