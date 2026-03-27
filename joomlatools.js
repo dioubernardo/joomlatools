@@ -97,7 +97,7 @@ async function main() {
                 case "clearfinderindex":
                 case "deletemodule":
                 case "gccontent":
-                case "setcontentlang":
+                case "changecontentlang":
                 case "gclanguages":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
