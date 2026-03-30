@@ -99,6 +99,7 @@ async function main() {
                 case "gccontent":
                 case "changecontentlang":
                 case "gclanguages":
+                case "disablecontentlang":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;
