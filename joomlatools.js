@@ -17,6 +17,7 @@ async function main() {
 
         let options = {
             headless: true,
+            sandbox: true,
             delayload: 250,
             logLevel: "error",
             action: "",
@@ -62,7 +63,7 @@ async function main() {
                     break;
                 case "txt":
                     const data = fs.readFileSync(sites[1], "utf8");
-                    domains = data.toString().split(/[\n,;\s]/).filter((value, index, self) =>{
+                    domains = data.toString().split(/[\n,;\s]/).filter((value, index, self) => {
                         return value != "" && self.indexOf(value) === index;
                     });
                     break;

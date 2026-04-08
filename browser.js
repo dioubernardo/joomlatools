@@ -12,6 +12,9 @@ class Browser {
         if (this.options.headless) {
             chromeFlags.push("--headless");
         }
+        if (!this.options.sandbox) {
+            chromeFlags.push("--no-sandbox");
+        }
         const chrome = await ChromeLauncher.launch({
             chromeFlags: chromeFlags,
             logLevel: this.options.logLevel,
