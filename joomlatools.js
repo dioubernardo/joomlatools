@@ -101,6 +101,7 @@ async function main() {
                 case "changecontentlang":
                 case "gclanguages":
                 case "disablecontentlang":
+                case "installptbr":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;
