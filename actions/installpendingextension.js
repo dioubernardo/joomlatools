@@ -12,28 +12,62 @@ async function run(options) {
 
         await joomla.login(options.user, options.password);
 
-        await joomla.go("/administrator/index.php?option=com_installer&view=discover");
+        await joomla.goAndClickClear("/administrator/index.php?option=com_installer&view=discover");
+
+        await joomla.clickWaitShowMsg("#toolbar-refresh button");
 
         await joomla.changeWait("#list_limit", 0);
 
-        await browser.setValue("#filter_search", options.args[0]);
-        await browser.click("#filter_search + button");
-        await browser.waitLoad();
+        if (options.args[0])
+            await joomla.searchWait(options.args[0]);
 
-        let list = await joomla.getContent([1, 8]);
-        if (list.length > 0) {
-            let items = []
-            list.forEach(update => {
-                items.push(update[0]);
-            });
-            console.log(" Installing: " + items.join(", "));
+        let list = await joomla.getContent([1, 8, 3]);
+        let plugins = [];
+        let itens = [];
+        for (let i = 0; i < list.length; i++) {
+            const nome = list[i][0];
+            const id = list[i][1];
+            const type = list[i][2];
+            if (!options.args[0] || options.args[0] == nome) {
+                itens.push(nome);
+                await browser.click("[name='cid[]'][value=" + id + "]");
+                if (type == "Plugin") {
+                    plugins.push(nome);
+                }
+            }
+        }
 
-            await browser.click("[name=checkall-toggle]");
+        async function ativarPlugin(nome){
+            await joomla.goAndClickClear("/administrator/index.php?option=com_plugins");
+            await joomla.searchWait(nome);
+            let list = await joomla.getContent([3, 7]);
+            let achou = false;
+            for (let i = 0; i < list.length; i++) {
+                const nm = list[i][0];
+                const id = list[i][1];
+                if (nome == nm) {
+                    achou = true;
+                    console.log("Ativando plugin: " + nome);
+                    await browser.click("[name='cid[]'][value=" + id + "]");
+                    await joomla.clickWaitShowMsg("#toolbar-publish button");
+                }
+            }
+            if (!achou) {
+                console.log("Plugin não encontrado para ativação: " + nome);
+            }
+        }
 
-            await joomla.clickWaitShowMsg("#toolbar-upload button", " Result: ");
+        if (itens.length > 0){
+            console.log("Instalando: " + itens.join(", "));
+            await joomla.clickWaitShowMsg("#toolbar-upload button");
 
+            if (plugins.length > 0) {
+                for (let i = 0; i < plugins.length; i++) {
+                    await ativarPlugin(plugins[i]);
+                }
+            }
         }else{
-            console.log(" Not found " + options.args[0]);
+            console.log("Nenhuma extensão encontrada para instalação");
         }
 
     } catch (err) {
