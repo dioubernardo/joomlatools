@@ -73,8 +73,20 @@ class Browser {
             if (o.length == 0)
                 throw "Object " + sel + " not found";
             const v = ` + JSON.stringify(value) + `;
-            if (o.val() != (""+v)){
-                o.val(v).triggerHandler("change");
+            if (o.length == 1){
+                if (o.val() != (""+v)){
+                    o.val(v).triggerHandler("change");
+                    return true;
+                }
+            }else{
+                o.each(function(){
+                    const o2 = jQuery(this);
+                    if (o2.val() == (""+v)){
+                        o2.prop("checked", true).triggerHandler("change");
+                    }else{
+                        o2.prop("checked", false).triggerHandler("change");
+                    }
+                });
                 return true;
             }
             return false;

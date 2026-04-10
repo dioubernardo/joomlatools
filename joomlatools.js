@@ -103,6 +103,7 @@ async function main() {
                 case "disablecontentlang":
                 case "installptbr":
                 case "setdefaulttheme":
+                case "setglobalconfig":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;
