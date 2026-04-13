@@ -104,6 +104,7 @@ async function main() {
                 case "installptbr":
                 case "setdefaulttheme":
                 case "setglobalconfig":
+                case "setadvancedtoolbartinymce":
                     const action = require("./actions/"+options.action+".js");
                     await action(options);
                     break;
