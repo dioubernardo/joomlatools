@@ -12,7 +12,6 @@ async function run(options) {
 
         await joomla.login(options.user, options.password);
 
-        console.log(options.args[0]);
         var configs = JSON.parse(options.args[0]);
         for (const component in configs) {
             if (component == "_"){
