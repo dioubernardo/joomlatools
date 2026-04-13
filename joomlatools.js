@@ -54,6 +54,7 @@ async function main() {
         });
 
         let domains = [];
+        let showDomain = false;
         if (options.sites != "") {
             const sites = splitParameter(options.sites, ":");
             switch (sites[0]) {
@@ -70,6 +71,7 @@ async function main() {
                 default:
                     throw "--sites must be \"format:destination\", possible formats: txt or json";
             }
+            showDomain = true;
         } else if (options.site != "") {
             domains = [options.site];
         } else {
@@ -84,7 +86,8 @@ async function main() {
             if (!/^https?:\/\//.test(options.site))
                 options.site = "https://" + options.site;
 
-            console.log("\nRunning on " + options.site);
+            if (showDomain)
+                console.log("\nRunning on " + options.site);
 
             switch (options.action) {
                 case "listupdates":
