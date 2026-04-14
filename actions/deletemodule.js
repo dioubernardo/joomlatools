@@ -22,12 +22,16 @@ async function run(options) {
 
         await joomla.searchWait(options.args[2]);
 
-        list = await joomla.getContent([9]);
+        if (options.args[0] == 0)
+            list = await joomla.getContent([3, 9]);
+        else
+            list = await joomla.getContent([3, 7]);
 
         for (let i = 0; i < list.length; i++) {
-            const id = list[i][0];
+            const title = list[i][0];
+            const id = list[i][1];
 
-            if (options.args[1] == id) {
+            if (options.args[1] == id || (options.args[1] == "*" && title == options.args[2])) {
                 await browser.click("[name='cid[]'][value=" + id + "]");
                 await joomla.clickWaitShowMsg("#toolbar-trash button");
                 break;
