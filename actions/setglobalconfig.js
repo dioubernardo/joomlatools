@@ -24,6 +24,8 @@ async function run(options) {
 
             for (const key in configs[component]) {
                 console.log(" " + key + " = " + configs[component][key]);
+                if (key == "smtppass")
+                    await browser.click("#jform_smtppass_lock");
                 if (key.substring(0, 1) == "#"){
                     await browser.setValue(key.replace(/\./g, "\\."), configs[component][key]);
                 }else{
