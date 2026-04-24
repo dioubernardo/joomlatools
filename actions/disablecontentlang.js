@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -24,6 +24,7 @@ async function run(options) {
             if (lang == options.args[0]) {
                 await browser.click("[name='cid[]'][value=" + id + "]");
                 await joomla.clickWaitShowMsg("#toolbar-unpublish button");
+                await log.write(`Linguagem de conteúdo ${lang} desativada`);
                 break;
             }
         }

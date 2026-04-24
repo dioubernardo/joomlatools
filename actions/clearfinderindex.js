@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -15,6 +15,8 @@ async function run(options) {
         await joomla.go("/administrator/index.php?option=com_finder");
 
         await joomla.clickWaitShowMsg("button.button-trash");
+
+        await log.write("Índice da Busca Inteligente limpo");
 
     } catch (err) {
         throw err;

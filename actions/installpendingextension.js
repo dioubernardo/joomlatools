@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -50,6 +50,7 @@ async function run(options) {
                     console.log("Ativando plugin: " + nome);
                     await browser.click("[name='cid[]'][value=" + id + "]");
                     await joomla.clickWaitShowMsg("#toolbar-publish button");
+                    await log.write(`Ativado plugin ${nome}`);
                 }
             }
             if (!achou) {
@@ -60,6 +61,7 @@ async function run(options) {
         if (itens.length > 0){
             console.log("Instalando: " + itens.join(", "));
             await joomla.clickWaitShowMsg("#toolbar-upload button");
+            await log.write(`Extensões instaladas: ${itens.join(", ")}`);
 
             if (plugins.length > 0) {
                 for (let i = 0; i < plugins.length; i++) {

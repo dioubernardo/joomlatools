@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -15,11 +15,9 @@ async function run(options) {
         // desbloqueando conteudo
         await joomla.unlockContent();
 
-        // limpando modulos inuteis
         await joomla.goAndClickClear("/administrator/index.php?option=com_modules");
 
         await joomla.changeWait("#client_id", options.args[0]);
-
         await joomla.searchWait(options.args[2]);
 
         if (options.args[0] == 0)
@@ -34,6 +32,7 @@ async function run(options) {
             if (options.args[1] == id || (options.args[1] == "*" && title == options.args[2])) {
                 await browser.click("[name='cid[]'][value=" + id + "]");
                 await joomla.clickWaitShowMsg("#toolbar-trash button");
+                await log.write(`Módulo "${title}" removido do ` + (options.args[0] == 0 ? "site" : "administrador"));
                 break;
             }
         }

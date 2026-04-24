@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -19,13 +19,15 @@ async function run(options) {
         await joomla.changeWait("#filter_published", "0");
         if (await joomla.hasContent()) {
             await joomla.checkAll();
-            await joomla.clickWaitShowMsg("#toolbar-trash button")
+            await joomla.clickWaitShowMsg("#toolbar-trash button");
+            await log.write("Enviado para lixeira linguagens de conteúdo não publicadas");
         }
 
         await joomla.changeWait("#filter_published", "-2");
         if (await joomla.hasContent()) {
             await joomla.checkAll();
             await joomla.clickWaitShowMsg("#toolbar-delete button");
+            await log.write("Removidas linguagens de conteúdo não publicadas");
         }
 
     } catch (err) {

@@ -1,5 +1,27 @@
 const axios = require("axios");
 const fs = require("fs");
+const Logs = require("./logs.js");
+
+const validcommands = [
+    "listupdates",
+    "updateextension",
+    "checks",
+    "update",
+    "installpendingextension",
+    "disableplugin",
+    "deleteviewlevel",
+    "deleteextension",
+    "clearfinderindex",
+    "deletemodule",
+    "gccontent",
+    "changecontentlang",
+    "gclanguages",
+    "disablecontentlang",
+    "installptbr",
+    "setdefaulttheme",
+    "setglobalconfig",
+    "setadvancedtoolbartinymce"
+];
 
 function splitParameter(txt, sep) {
     const pos = txt.indexOf(sep);
@@ -89,32 +111,13 @@ async function main() {
             if (showDomain)
                 console.log("\nRunning on " + options.site);
 
-            switch (options.action) {
-                case "listupdates":
-                case "updateextension":
-                case "checks":
-                case "update":
-                case "installpendingextension":
-                case "disableplugin":
-                case "deleteviewlevel":
-                case "deleteextension":
-                case "clearfinderindex":
-                case "deletemodule":
-                case "gccontent":
-                case "changecontentlang":
-                case "gclanguages":
-                case "disablecontentlang":
-                case "installptbr":
-                case "setdefaulttheme":
-                case "setglobalconfig":
-                case "setadvancedtoolbartinymce":
-                    const action = require("./actions/"+options.action+".js");
-                    await action(options);
-                    break;
+            if (!validcommands.includes(options.action))
+                throw "Invalid action: " + options.action;
 
-                default:
-                    throw "Invalid action: " + options.action;
-            }
+            const log = new Logs(options.site);
+
+            const action = require("./actions/"+options.action+".js");
+            await action(options, log);
         }
 
     } catch (err) {

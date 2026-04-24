@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -29,8 +29,10 @@ async function run(options) {
             }
         }
 
+
         if (achou){
             await joomla.clickWaitShowMsg("#toolbar-delete button");
+            await log.write(`Extensão ${options.args[0]} removida`);
         }else{
             console.log(" Not found " + options.args[0]);
         }

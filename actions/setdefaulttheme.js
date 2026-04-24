@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -20,6 +20,7 @@ async function run(options) {
             const id = list[0][0];
             await browser.click("[name='cid[]'][value=" + id + "]");
             await joomla.clickWaitShowMsg("#toolbar-default button");
+            await log.write(`Definido tema ${options.args[0]} como padrão`);
         }else{
             throw "Deve exitir apenas um estilo para o tema " + options.args[0] + " para ser definido como padrão. Encontrados: " + list.length;
         }
@@ -31,17 +32,20 @@ async function run(options) {
 
         list = await joomla.getContent([2, 10]);
         let achou = false;
+        let itens = [];
         for (let i = 0; i < list.length; i++) {
             const nome = list[i][0];
             const id = list[i][1];
             if (nome != options.args[0]) {
                 achou = true;
                 await browser.click("[name='cid[]'][value=" + id + "]");
+                itens.push(nome);
             }
         }
 
         if (achou){
             await joomla.clickWaitShowMsg("#toolbar-delete button");
+            await log.write(`Temas removidos: ${itens.join(", ")}`);
         }
 
     } catch (err) {

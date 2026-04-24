@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -11,6 +11,8 @@ async function run(options) {
         joomla = new Joomla(browser, options.site);
 
         await joomla.login(options.user, options.password);
+
+        await log.write("Conformidade da instalação do Joomla checada");
 
         await joomla.go("/administrator/index.php?option=com_installer&view=warnings");
         const warnings = await browser.getText("#system-message-container .alert-message");

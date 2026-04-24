@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -37,6 +37,7 @@ async function run(options) {
             await browser.click("[name=checkall-toggle]");
 
             await joomla.clickWaitShowMsg("#toolbar-upload button", " Result: ");
+            await log.write("Extensões atualizadas: " + items.join(", "));
         }else{
             console.log(" Not found updates for " + options.args[0]);
         }

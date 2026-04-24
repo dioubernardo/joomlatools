@@ -1,19 +1,26 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
-    async function filterStateAndClick(field, state, button){
+    async function filterStateAndClick(field, state, button, component){
         await joomla.changeWait(field, state);
-
+        let executou = false;
         while(true){
             if (await joomla.hasContent()) {
                 await joomla.checkAll();
                 await joomla.clickWaitShowMsg(button);
+                executou = true;
             }else{
                 break;
             }
+        }
+        if (executou){
+            if (state == "0")
+                await log.write(`Conteúdo não publicado de ${component} enviado para lixeira`);
+            else
+                await log.write(`Conteúdo da lixeira de ${component} removido`);
         }
     }
 
@@ -31,65 +38,65 @@ async function run(options) {
         // ** GC nos artigos **
         await joomla.goAndClickClear("/administrator/index.php?option=com_content");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_published", "0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_published", "0", "#toolbar-trash button", "artigos");
         // limpando a lixeira
-        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button", "artigos");
 
 
         // ** GC nos itens de menu **
         await joomla.goAndClickClear("/administrator/index.php?option=com_menus&view=items&menutype=");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_published", "0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_published", "0", "#toolbar-trash button", "itens de menu");
         // limpando a lixeira
-        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button", "itens de menu");
 
 
         // ** GC nos módulos **
         await joomla.goAndClickClear("/administrator/index.php?option=com_modules");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_state","0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_state", "0", "#toolbar-trash button", "módulos");
         // limpando a lixeira
-        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button", "módulos");
 
 
         // ** GC nos banners **
         await joomla.goAndClickClear("/administrator/index.php?option=com_banners");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_published","0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_published", "0", "#toolbar-trash button", "banners");
         // limpando a lixeira
-        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button", "banners");
 
 
         // ** GC nos contatos **
         await joomla.goAndClickClear("/administrator/index.php?option=com_contact");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_published","0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_published", "0", "#toolbar-trash button", "contatos");
         // limpando a lixeira
-        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_published", "-2", "#toolbar-delete button", "contatos");
 
 
         // ** GC nos fields dos usuários **
         await joomla.goAndClickClear("/administrator/index.php?option=com_fields&context=com_users.user");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_state","0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_state", "0", "#toolbar-trash button", "campos dos usuários");
         // limpando a lixeira
-        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button", "campos dos usuários");
 
 
         // ** GC nos fields dos artigos **
         await joomla.goAndClickClear("/administrator/index.php?option=com_fields&context=com_content.article");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_state","0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_state", "0", "#toolbar-trash button", "campos dos artigos");
         // limpando a lixeira
-        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button", "campos dos artigos");
 
 
         // ** GC nos fields dos contatos **
         await joomla.goAndClickClear("/administrator/index.php?option=com_fields&context=com_contact.contact");
         // movendo não publicados para lixeira
-        await filterStateAndClick("#filter_state","0", "#toolbar-trash button");
+        await filterStateAndClick("#filter_state", "0", "#toolbar-trash button", "campos dos contatos");
         // limpando a lixeira
-        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button");
+        await filterStateAndClick("#filter_state", "-2", "#toolbar-delete button", "campos dos contatos");
 
 
         // ** GC Menus Vazios **
@@ -111,6 +118,7 @@ async function run(options) {
             }
             if (achou) {
                 await joomla.clickWaitShowMsg("#toolbar-delete button");
+                await log.write(`Menus vazios removidos`);
             }
         }
 
@@ -147,6 +155,11 @@ async function run(options) {
             }
             if (achou) {
                 let msg = await joomla.clickWaitShowMsg(button);
+                if (state == "-2"){
+                    await log.write(`Categorias vazias em ${extension} enviadas para lixeira`);
+                }else{
+                    await log.write(`Categorias vazias em ${extension} removidas`);
+                }
                 if (ultimoerro == msg) {
                     repeticao++;
                     if (repeticao == 5) {
@@ -161,7 +174,9 @@ async function run(options) {
             return achou;
         }
         // limpando categorias vazias
-        while(await gcCategoriasVazias("", "#toolbar-trash button", "com_content"));
+
+        // @TODO: Existiam categorias vazias com a descrição alimentada e conteúdo renderizado nas páginas
+        //while(await gcCategoriasVazias("", "#toolbar-trash button", "com_content"));
         while(await gcCategoriasVazias("", "#toolbar-trash button", "com_banners"));
         while(await gcCategoriasVazias("", "#toolbar-trash button", "com_contact"));
 

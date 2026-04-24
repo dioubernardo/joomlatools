@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -21,7 +21,9 @@ async function run(options) {
                 "#online-update table",
                 [1]
             );
-            console.log(" Update from " + list[0][0].replace(/[^0-9.]/, "") + " to " + list[1][0].replace(/[^0-9.]/, ""));
+            const updatelogtext = "Atualizado de " + list[0][0].replace(/[^0-9.]/, "") + " para " + list[1][0].replace(/[^0-9.]/, "");
+            console.log(updatelogtext);
+            await log.write(updatelogtext);
 
             await browser.click("#online-update button");
             await browser.waitLoad();
@@ -73,12 +75,14 @@ async function run(options) {
 
                 try {
                     const id = list[i][1];
+                    const name = list[i][0];
 
                     await joomla.go("/administrator/index.php?option=com_installer&view=discover");
 
                     await browser.click("[name='cid[]'][value=" + id + "]");
 
                     await joomla.clickWaitShowMsg("#toolbar-upload button", "   Install result: ");
+                    await log.write(`Instalada extensão ${name} que estava pendente`);
 
                     await joomla.go("/administrator/index.php?option=com_installer&view=manage");
                     await browser.setValue("#filter_search", "ID:" + id);
@@ -88,6 +92,7 @@ async function run(options) {
                     await browser.click("[name='cid[]'][value=" + id + "]");
 
                     await joomla.clickWaitShowMsg("#toolbar-delete button", "   Uninstall result: ");
+                    await log.write(`Desinstalada extensão ${name} que estava pendente`);
                 } catch (err) {
                     console.log("   Error: " + err);
                 }

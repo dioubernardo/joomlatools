@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -37,6 +37,7 @@ async function run(options) {
         await browser.setValue("#jform_params__configuration__setoptions__0__invalid_elements", "script,applet");
 
         await joomla.clickWaitShowMsg("#toolbar-save button");
+        await log.write("Padronizada configuração do TinyMCE");
 
     } catch (err) {
         throw err;

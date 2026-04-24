@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -15,7 +15,8 @@ async function run(options) {
         // ** Desbloqueando conteudo **
         await joomla.unlockContent();
 
-        async function changeLang(url){
+        async function changeLang(option){
+            const url = "/administrator/index.php?option=" + option;
             await joomla.goAndClickClear(url);
 
             await joomla.changeWait("#filter_language", options.args[0]);
@@ -29,13 +30,15 @@ async function run(options) {
 
                 await browser.setValue("#batch-language-id", options.args[1]);
                 await joomla.clickWaitShowMsg(".modal-footer button[type='submit']");
+
+                await log.write(`Conteúdo em ${option} alterado de ${options.args[0]} para ${options.args[1]}`);
             }
         }
 
-        await changeLang("/administrator/index.php?option=com_content");
-        await changeLang("/administrator/index.php?option=com_contact");
-        await changeLang("/administrator/index.php?option=com_banners");
-        await changeLang("/administrator/index.php?option=com_modules");
+        await changeLang("com_content");
+        await changeLang("com_contact");
+        await changeLang("com_banners");
+        await changeLang("com_modules");
 
     } catch (err) {
         throw err;

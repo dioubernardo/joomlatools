@@ -1,7 +1,7 @@
 const Browser = require("../browser.js");
 const Joomla = require("../joomla.js");
 
-async function run(options) {
+async function run(options, log) {
     let browser, joomla;
 
     try {
@@ -34,6 +34,11 @@ async function run(options) {
             }
 
             await joomla.clickWaitShowMsg("#toolbar-apply button");
+            if (component == "_"){
+                await log.write(`Atualizadas configurações globais do sistema`);
+            } else {
+                await log.write(`Atualizadas configurações globais do "${component}"`);
+            }
         }
 
     } catch (err) {
