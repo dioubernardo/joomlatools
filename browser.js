@@ -8,7 +8,10 @@ class Browser {
     }
 
     async start() {
-        let chromeFlags = [];
+        let chromeFlags = [
+            "--disable-dev-shm-usage",
+            "--disable-gpu"
+        ];
         if (this.options.headless) {
             chromeFlags.push("--headless");
         }
