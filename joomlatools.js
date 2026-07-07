@@ -121,12 +121,13 @@ async function main() {
             await action(options, log);
         }
 
+        return 0;
+
     } catch (err) {
         console.error("Error: " + err);
-    } finally {
-        process.exit();
+        return 1;
     }
 
 }
 
-main();
+main().then(code => process.exit(code));
