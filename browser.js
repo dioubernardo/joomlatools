@@ -18,7 +18,7 @@ class Browser {
         const chrome = await ChromeLauncher.launch({
             chromeFlags: chromeFlags,
             logLevel: this.options.logLevel,
-            maxConnectionRetries: 10
+            maxConnectionRetries: 50
         });
         this.chrome = chrome;
     }
