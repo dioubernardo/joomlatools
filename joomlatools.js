@@ -20,7 +20,8 @@ const validcommands = [
     "installptbr",
     "setdefaulttheme",
     "setglobalconfig",
-    "setadvancedtoolbartinymce"
+    "setadvancedtoolbartinymce",
+    "deletemenu"
 ];
 
 function splitParameter(txt, sep) {
