@@ -21,7 +21,8 @@ const validcommands = [
     "setdefaulttheme",
     "setglobalconfig",
     "setadvancedtoolbartinymce",
-    "deletemenu"
+    "deletemenu",
+    "setpluginconfig"
 ];
 
 function splitParameter(txt, sep) {
