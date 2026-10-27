@@ -23,7 +23,8 @@ const validcommands = [
     "setadvancedtoolbartinymce",
     "deletemenu",
     "setpluginconfig",
-    "deletebanner"
+    "deletebanner",
+    "installextension"
 ];
 
 function splitParameter(txt, sep) {
