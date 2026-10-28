@@ -24,7 +24,8 @@ const validcommands = [
     "deletemenu",
     "setpluginconfig",
     "deletebanner",
-    "installextension"
+    "installextension",
+    "assistentesitebase"
 ];
 
 function splitParameter(txt, sep) {
